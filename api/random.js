@@ -12,68 +12,45 @@ export default function handler(req, res) {
 
     // 仅允许GET访问视频接口
     if (req.method !== 'GET') {
-      return res.status(405).json({ msg: "仅支持GET请求" });
+      res.setHeader('Content-Type','application/json');
+      return res.status(405).send(JSON.stringify({ msg: "仅支持GET请求" }, null, 2));
     }
 
+    // 全部动漫短视频素材
     const videos = [
       {
-        url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm",
-        name: "Flower",
-        duration: "10s"
-      },
-      {
-        url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/bee.webm",
-        name: "Bee",
-        duration: "10s"
-      },
-      {
-        url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/elephant-617.mp4",
-        name: "Elephant",
-        duration: "6s"
-      },
-      {
-        url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/motion.mp4",
-        name: "Motion",
-        duration: "8s"
-      },
-      {
-        url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720p/Big_Buck_Bunny_720_10s_1MB.mp4",
-        name: "Big Buck Bunny",
-        duration: "10s"
-      },
-      {
-        url: "https://test-videos.co.uk/vids/bigbuckbunny/webm/vp8/720p/Big_Buck_Bunny_720_10s_2MB.webm",
-        name: "Big Buck Bunny (WebM)",
-        duration: "10s"
-      },
-      {
-        url: "https://commondatastorage.googleapis.com/gtv-videos-library/sample/ForBiggerBlazes.mp4",
-        name: "For Bigger Blazes",
-        duration: "16s"
-      },
-      {
-        url: "https://commondatastorage.googleapis.com/gtv-videos-library/sample/ElephantsDream.mp4",
-        name: "Elephants Dream",
-        duration: "1m 53s"
-      },
-      {
-        url: "https://commondatastorage.googleapis.com/gtv-videos-library/sample/BigBuckBunny.mp4",
-        name: "Big Buck Bunny (Full)",
+        url: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        name: "大雄兔 经典动漫短片",
         duration: "9m 56s"
       },
       {
-        url: "https://www.w3schools.com/html/mov_bbb.mp4",
-        name: "Big Buck Bunny Sample",
-        duration: "25s"
+        url: "https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        name: "大象之梦 开源动画短片",
+        duration: "1m 53s"
+      },
+      {
+        url: "https://storage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+        name: "辛特尔 奇幻动画短片",
+        duration: "14m 48s"
+      },
+      {
+        url: "https://storage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+        name: "钢铁之泪 科幻动画短片",
+        duration: "12m 14s"
+      },
+      {
+        url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm",
+        name: "动漫风景镜头素材",
+        duration: "10s"
       }
     ];
 
     const video = videos[Math.floor(Math.random() * videos.length)];
-    // 替换后的格式化输出代码
+    // 格式化美观输出
     res.setHeader('Content-Type','application/json');
     res.status(200).send(JSON.stringify(video, null, 2));
   } catch (err) {
-    // 捕获所有代码异常，统一返回500友好提示，避免函数坠毁
-    res.status(500).json({ error: "接口服务异常", detail: err.message });
+    res.setHeader('Content-Type','application/json');
+    res.status(500).send(JSON.stringify({ error: "接口服务异常", detail: err.message }, null, 2));
   }
 }

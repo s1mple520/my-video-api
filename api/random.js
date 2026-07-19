@@ -3,6 +3,7 @@ export default function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // 原生接口返回json时会自动添加 Content-Type: application/json，无需手动type
 
   // 处理跨域预检请求
   if (req.method === 'OPTIONS') {
@@ -68,5 +69,6 @@ export default function handler(req, res) {
   ];
 
   const video = videos[Math.floor(Math.random() * videos.length)];
-  res.status(200).type('application/json').send(JSON.stringify(video, null, 2));
+  // 修复点：删除 .type()，直接使用 .json() 原生方法，自动格式化+设置json头
+  res.status(200).json(video);
 }

@@ -69,7 +69,9 @@ export default function handler(req, res) {
     ];
 
     const video = videos[Math.floor(Math.random() * videos.length)];
-    res.status(200).json(video);
+    // 替换后的格式化输出代码
+    res.setHeader('Content-Type','application/json');
+    res.status(200).send(JSON.stringify(video, null, 2));
   } catch (err) {
     // 捕获所有代码异常，统一返回500友好提示，避免函数坠毁
     res.status(500).json({ error: "接口服务异常", detail: err.message });

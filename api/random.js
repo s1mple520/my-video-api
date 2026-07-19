@@ -1,4 +1,19 @@
 export default function handler(req, res) {
+  // 全局跨域配置
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // 处理跨域预检请求
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+
+  // 仅允许GET访问视频接口
+  if (req.method !== 'GET') {
+    return res.status(405).json({ msg: "仅支持GET请求" });
+  }
+
   const videos = [
     {
       url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm",
@@ -51,6 +66,7 @@ export default function handler(req, res) {
       duration: "25s"
     }
   ];
+
   const video = videos[Math.floor(Math.random() * videos.length)];
   res.status(200).type('application/json').send(JSON.stringify(video, null, 2));
 }

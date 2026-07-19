@@ -52,5 +52,5 @@ export default function handler(req, res) {
     }
   ];
   const video = videos[Math.floor(Math.random() * videos.length)];
-  res.status(200).json(video);
+  res.status(200).type('application/json').send(JSON.stringify(video, null, 2));
 }
